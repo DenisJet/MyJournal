@@ -16,6 +16,7 @@ module.exports = {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     semi: ['error', 'always', { omitLastInOneLineBlock: false }],
     'comma-dangle': ['error', 'never'],
-    quotes: ['error', 'single']
+    quotes: ['error', 'single'],
+    'react/props-types': ['ignore'],
   },
 };
