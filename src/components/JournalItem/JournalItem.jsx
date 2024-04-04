@@ -1,10 +1,6 @@
 import './JournalItem.css';
 
-export default function JournalItem() {
-  const title = 'Title';
-  const date = new Date();
-  const text = 'Test text dsgdsgserdhrs test';
-  
+export default function JournalItem({title, text, date}) {
   return (
     <div className='journal-item'>
       <h2 className='journal-item__header'>{title}</h2>
