@@ -13,34 +13,35 @@ export default function JournalForm({onSubmit}) {
 
     if (!isValid.date || !isValid.text || !isValid.title) {
       timerId = setTimeout(() => {
-        dispatchForm({type: 'RESET_VALIDITY'})
+        dispatchForm({type: 'RESET_VALIDITY'});
       }, 1000)
     }
 
     return () => {
-      clearTimeout(timerId)
+      clearTimeout(timerId);
     }
   }, [isValid])
 
   useEffect(() => {
     if (isFormReadyToSubmit) {
       onSubmit(values);
+      dispatchForm({type: 'CLEAR'});
     }
   }, [isFormReadyToSubmit])
 
+  const onChange = (e) => {
+    dispatchForm({type: 'SET_VALUE', payload: {[e.target.name]: e.target.value}})
+  }
+
   const addJournalItem = (e) => {
     e.preventDefault();
-
-    const formData = new FormData(e.target);
-    const formProps = Object.fromEntries(formData);
-
-    dispatchForm({type: 'SUBMIT', payload: formProps})
+    dispatchForm({type: 'SUBMIT'})
   }
 
   return (
     <form className='journal-form' onSubmit={addJournalItem}>
       <div>
-        <input type='text' name='title' className={cn('input-title', {
+        <input value={values.title} onChange={onChange} type='text' name='title' className={cn('input-title', {
           ['invalid']: !isValid.title 
         })}/>
       </div>
@@ -49,7 +50,7 @@ export default function JournalForm({onSubmit}) {
           <img src='/calendar.svg' alt="иконка календаря"/>
           <span>Дата</span>
         </label>
-        <input type='date' name='date' id='date' className={cn('input', {
+        <input value={values.date} onChange={onChange} type='date' name='date' id='date' className={cn('input', {
           ['invalid']: !isValid.date 
         })}/>
       </div>
@@ -58,9 +59,9 @@ export default function JournalForm({onSubmit}) {
           <img src='/folder.svg' alt="иконка папки"/>
           <span>Метки</span>
         </label>
-        <input type='text' name='tag' id='tag' className='input'/>
+        <input value={values.tag} onChange={onChange} type='text' name='tag' id='tag' className='input'/>
       </div>
-      <textarea name='text' cols='30' rows="10" className={cn('input', {
+      <textarea value={values.text} onChange={onChange} name='text' cols='30' rows="10" className={cn('input', {
         ['invalid']: !isValid.text 
       })}/>
       <Button>Сохранить</Button>
