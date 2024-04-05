@@ -11,20 +11,17 @@ import LeftPanel from './layouts/LeftPanel/LeftPanel';
 
 const INITIAL_STATE = [
   {
+    id: 1,
     title: 'title 1',
     text: 'test 1 text asfsdfd dsfgdshdfsh fdhs',
     date: new Date()
   },
   {
+    id: 2,
     title: 'title 2',
     text: 'test 2 text asfsdfd dsfgdshdfsh fdhsasdasdasd',
     date: new Date()
   },
-  {
-    title: 'title 3',
-    text: 'test 3 text asfsdfd',
-    date: new Date()
-  }
 ];
 
 function App() {
@@ -40,6 +37,7 @@ function App() {
 
   const addItem = (item) => {
     setItems(oldItems => [...oldItems, {
+      id: Math.max(...oldItems.map(i => i.id)) + 1,
       text: item.text,
       title: item.title,
       date: new Date(item.date)
@@ -53,7 +51,7 @@ function App() {
       <JournalAddButton/>
       <JournalList>
         {items.sort(sortItems).map(el => (
-          <CardButton>
+          <CardButton key={el.id}>
             <JournalItem title={el.title} text={el.text} date={el.date}/>
           </CardButton>
         ))}

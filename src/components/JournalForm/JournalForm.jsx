@@ -8,8 +8,7 @@ export default function JournalForm({onSubmit}) {
     const formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
-    onSubmit(formProps)
-    console.log(formProps);
+    onSubmit(formProps);
   }
 
   return (
