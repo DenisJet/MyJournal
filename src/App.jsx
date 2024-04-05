@@ -20,7 +20,7 @@ function App() {
   return (
     <>
       <div>Project</div> 
-      <Button/>
+      <Button>Сохранить</Button>
       <CardButton>
         Новое воспоминание
       </CardButton>

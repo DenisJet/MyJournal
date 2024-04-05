@@ -1,7 +1,7 @@
 import './Button.css';
 
-export default function Button() {
+export default function Button({children, onClick}) {
   return (
-    <button className='button accent'>Сохранить</button>
+    <button className='button accent' onClick={onClick}>{children}</button>
   );
 }
