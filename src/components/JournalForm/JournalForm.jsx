@@ -1,13 +1,14 @@
 import './JournalForm.css';
 import Button from '../Button/Button';
 
-export default function JournalForm() {
+export default function JournalForm({onSubmit}) {
   const addJournalItem = (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
 
+    onSubmit(formProps)
     console.log(formProps);
   }
 
