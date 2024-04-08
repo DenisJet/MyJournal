@@ -60,6 +60,7 @@ export default function JournalForm({ onSubmit, data, onDelete }) {
   }, [isFormReadyToSubmit, values, onSubmit, userId]);
 
   useEffect(() => {
+    dispatchForm({ type: 'CLEAR' });
     dispatchForm({ type: 'SET_VALUE', payload: { userId } });
   }, [userId]);
 
