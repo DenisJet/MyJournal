@@ -3,16 +3,17 @@ import Button from '../Button/Button';
 import { useEffect, useReducer, useRef } from 'react';
 import cn from 'classnames';
 import { formReducer, INITIAL_STATE } from './JournalForm.state';
+import Input from '../Input/Input';
 
-export default function JournalForm({onSubmit}) {
+export default function JournalForm({ onSubmit }) {
   const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
-  const {isValid, isFormReadyToSubmit, values} = formState;
+  const { isValid, isFormReadyToSubmit, values } = formState;
   const titleRef = useRef();
   const dateRef = useRef();
   const textRef = useRef();
 
   const focusError = (isValid) => {
-    switch(true) {
+    switch (true) {
       case !isValid.title:
         titleRef.current.focus();
         break;
@@ -21,68 +22,88 @@ export default function JournalForm({onSubmit}) {
         break;
       case !isValid.text:
         textRef.current.focus();
-        break;    
+        break;
     }
-  }
+  };
 
   useEffect(() => {
-    let timerId
+    let timerId;
 
     if (!isValid.date || !isValid.text || !isValid.title) {
       focusError(isValid);
       timerId = setTimeout(() => {
-        dispatchForm({type: 'RESET_VALIDITY'});
-      }, 1000)
+        dispatchForm({ type: 'RESET_VALIDITY' });
+      }, 1000);
     }
 
     return () => {
       clearTimeout(timerId);
-    }
-  }, [isValid])
+    };
+  }, [isValid]);
 
   useEffect(() => {
     if (isFormReadyToSubmit) {
       onSubmit(values);
-      dispatchForm({type: 'CLEAR'});
+      dispatchForm({ type: 'CLEAR' });
     }
-  }, [isFormReadyToSubmit, values, onSubmit])
+  }, [isFormReadyToSubmit, values, onSubmit]);
 
   const onChange = (e) => {
-    dispatchForm({type: 'SET_VALUE', payload: {[e.target.name]: e.target.value}})
-  }
+    dispatchForm({ type: 'SET_VALUE', payload: { [e.target.name]: e.target.value } });
+  };
 
   const addJournalItem = (e) => {
     e.preventDefault();
-    dispatchForm({type: 'SUBMIT'})
-  }
+    dispatchForm({ type: 'SUBMIT' });
+  };
 
   return (
     <form className='journal-form' onSubmit={addJournalItem}>
       <div>
-        <input value={values.title} onChange={onChange} ref={titleRef} type='text' name='title' className={cn('input-title', {
-          ['invalid']: !isValid.title 
-        })}/>
+        <Input
+          value={values.title}
+          onChange={onChange}
+          ref={titleRef}
+          isValid={isValid.title}
+          type='text'
+          name='title'
+          appearance='title'
+        />
       </div>
       <div className='form-row'>
-        <label htmlFor="date" className='form-label'>
-          <img src='/calendar.svg' alt="иконка календаря"/>
+        <label htmlFor='date' className='form-label'>
+          <img src='/calendar.svg' alt='иконка календаря' />
           <span>Дата</span>
         </label>
-        <input value={values.date} onChange={onChange} ref={dateRef} type='date' name='date' id='date' className={cn('input', {
-          ['invalid']: !isValid.date 
-        })}/>
+        <Input
+          value={values.date}
+          onChange={onChange}
+          ref={dateRef}
+          isValid={isValid.date}
+          type='date'
+          name='date'
+          id='date'
+        />
       </div>
       <div className='form-row'>
-        <label htmlFor="tag" className='form-label'>
-          <img src='/folder.svg' alt="иконка папки"/>
+        <label htmlFor='tag' className='form-label'>
+          <img src='/folder.svg' alt='иконка папки' />
           <span>Метки</span>
         </label>
-        <input value={values.tag} onChange={onChange} type='text' name='tag' id='tag' className='input'/>
+        <Input value={values.tag} onChange={onChange} type='text' name='tag' id='tag' />
       </div>
-      <textarea value={values.text} onChange={onChange} ref={textRef} name='text' cols='30' rows="10" className={cn('input', {
-        ['invalid']: !isValid.text 
-      })}/>
+      <textarea
+        value={values.text}
+        onChange={onChange}
+        ref={textRef}
+        name='text'
+        cols='30'
+        rows='10'
+        className={cn('input', {
+          ['invalid']: !isValid.text,
+        })}
+      />
       <Button>Сохранить</Button>
     </form>
-  )
+  );
 }
