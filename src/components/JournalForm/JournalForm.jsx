@@ -61,7 +61,6 @@ export default function JournalForm({ onSubmit, data, onDelete }) {
 
   useEffect(() => {
     dispatchForm({ type: 'SET_VALUE', payload: { userId } });
-    dispatchForm({ type: 'CLEAR' });
   }, [userId]);
 
   const onChange = (e) => {
