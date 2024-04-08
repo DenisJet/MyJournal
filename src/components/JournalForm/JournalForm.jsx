@@ -29,6 +29,10 @@ export default function JournalForm({ onSubmit, data, onDelete }) {
   };
 
   useEffect(() => {
+    if (!data) {
+      dispatchForm({ type: 'CLEAR' });
+      dispatchForm({ type: 'SET_VALUE', payload: { userId } });
+    }
     dispatchForm({ type: 'SET_VALUE', payload: { ...data } });
   }, [data]);
 
@@ -86,7 +90,7 @@ export default function JournalForm({ onSubmit, data, onDelete }) {
           name='title'
           appearance='title'
         />
-        {data.id && (
+        {data?.id && (
           <button className='delete' type='button' onClick={deleteJournalItem}>
             <img src='/archive.svg' alt='иконка удалить' />
           </button>
