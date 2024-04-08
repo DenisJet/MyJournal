@@ -1,17 +1,35 @@
 import './JournalForm.css';
 import Button from '../Button/Button';
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import cn from 'classnames';
 import { formReducer, INITIAL_STATE } from './JournalForm.state';
 
 export default function JournalForm({onSubmit}) {
   const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
   const {isValid, isFormReadyToSubmit, values} = formState;
+  const titleRef = useRef();
+  const dateRef = useRef();
+  const textRef = useRef();
+
+  const focusError = (isValid) => {
+    switch(true) {
+      case !isValid.title:
+        titleRef.current.focus();
+        break;
+      case !isValid.date:
+        dateRef.current.focus();
+        break;
+      case !isValid.text:
+        textRef.current.focus();
+        break;    
+    }
+  }
 
   useEffect(() => {
     let timerId
 
     if (!isValid.date || !isValid.text || !isValid.title) {
+      focusError(isValid);
       timerId = setTimeout(() => {
         dispatchForm({type: 'RESET_VALIDITY'});
       }, 1000)
@@ -41,7 +59,7 @@ export default function JournalForm({onSubmit}) {
   return (
     <form className='journal-form' onSubmit={addJournalItem}>
       <div>
-        <input value={values.title} onChange={onChange} type='text' name='title' className={cn('input-title', {
+        <input value={values.title} onChange={onChange} ref={titleRef} type='text' name='title' className={cn('input-title', {
           ['invalid']: !isValid.title 
         })}/>
       </div>
@@ -50,7 +68,7 @@ export default function JournalForm({onSubmit}) {
           <img src='/calendar.svg' alt="иконка календаря"/>
           <span>Дата</span>
         </label>
-        <input value={values.date} onChange={onChange} type='date' name='date' id='date' className={cn('input', {
+        <input value={values.date} onChange={onChange} ref={dateRef} type='date' name='date' id='date' className={cn('input', {
           ['invalid']: !isValid.date 
         })}/>
       </div>
@@ -61,7 +79,7 @@ export default function JournalForm({onSubmit}) {
         </label>
         <input value={values.tag} onChange={onChange} type='text' name='tag' id='tag' className='input'/>
       </div>
-      <textarea value={values.text} onChange={onChange} name='text' cols='30' rows="10" className={cn('input', {
+      <textarea value={values.text} onChange={onChange} ref={textRef} name='text' cols='30' rows="10" className={cn('input', {
         ['invalid']: !isValid.text 
       })}/>
       <Button>Сохранить</Button>
