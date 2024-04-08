@@ -1,3 +1,10 @@
 .journal-add {
   text-align: center;
+  background: #312EB5;
+  transition: background 0.25s;
+}
+
+
+.journal-add:hover {
+  background: #222096;
 }

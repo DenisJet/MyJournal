@@ -56,7 +56,7 @@ function App() {
         <LeftPanel>
           <Header />
           <JournalAddButton clearForm={() => setSelectedItem(null)} />
-          <JournalList items={mapItems(items)} setItem={setSelectedItem} />
+          <JournalList items={mapItems(items)} setItem={setSelectedItem} selectedItem={selectedItem} />
         </LeftPanel>
         <Body>
           <JournalForm onSubmit={addItem} onDelete={deleteItem} data={selectedItem} />

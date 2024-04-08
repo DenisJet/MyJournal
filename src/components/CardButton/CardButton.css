@@ -8,8 +8,13 @@
   text-align: start;
   display: block;
   width: 100%;
+  transition: background 0.25s;
 }
 
 .card-button:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.active {
   background: rgba(255, 255, 255, 0.10);
 }
