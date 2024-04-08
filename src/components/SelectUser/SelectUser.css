@@ -2,4 +2,9 @@
   padding: 10px;
   border: 1px solid #575555;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+.select:hover {
+  opacity: 0.8;
 }
